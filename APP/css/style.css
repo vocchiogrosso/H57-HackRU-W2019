@@ -1,0 +1,140 @@
+/* Nav Bar */
+.navigation {
+ 	height: 70px;
+ 	align-content: center;
+ 	padding-left: 26%;
+}
+
+.navigation a {
+	position: relative;
+ 	color: 	#A9A9A9;
+ 	text-align: center;
+ 	padding: 10px 10px;
+ 	text-decoration: none;
+ 	font-size: 17px;
+ 	margin: 10%;
+}
+
+.navigation img{
+	height: 100%;
+	margin: 0;
+	align-content: center;
+}
+
+.navigation a:hover {
+  color: green;
+  text-decoration: none;
+}
+
+.navigation a.active {
+  color: green;
+  text-decoration:none;
+}
+
+
+.sensorInfo{
+	width: 30%;
+	background-color: black;
+	color: white;
+	margin-left: 10px;
+	font-family: 'Robot', sans-serif;
+	height: 80vh;
+}
+
+.largeTitle{
+	font-weight: bold;
+	font-size: 10px;
+	text-align: center;
+}
+.largeSensorDescription{
+	font-size: 10px;
+	text-align: left;
+}
+.largeUnits{
+	font-size: 8px;
+	float: right;
+}
+
+.farm-container{
+	float:right;
+	position:relative;
+	display:grid;
+	grid-template-columns: repeat(3, 150px);
+	grid-gap: 10px;
+	grid-auto-rows: minmax(150px, 1fr);
+	height: 80vh;
+	width: 80%;
+	align-items: center;
+	margin-left: 10%;
+}
+
+.content{
+	display:flex;
+	margin-top: 45px;
+}
+
+.node-image{
+	height: 100%;
+	width: 100%;
+	cursor: pointer;
+}
+
+.node-text{
+	font-size: 10px;
+	text-align: center;
+	margin:0;
+}
+
+.title{
+	text-align: center;
+}
+.sensorDescription{
+	border-bottom: 2px solid white;
+	margin: 0 7%;
+	font-size: 18px;
+	text-align: left;
+}
+
+.sensorData{
+	float:right;
+}
+
+.units{
+	font-size: 10px;
+	text-align: right;
+	padding-right: 7%;
+}
+
+#plantTitle{
+	padding-top: 7%;
+	font-size: 25px;
+}
+
+.node figure{
+	position: relative;
+}
+
+.node figure img{
+	max-width: 100%;
+	display: block;
+	position: relative;
+}
+
+.node figcaption img{
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	left: 0;
+	top: 0;
+	opacity: 0;
+}
+
+.node figcaption img:hover{
+	opacity:1;
+	transition-duration: 500ms;
+	cursor: pointer;
+}
+
+.mapbutton{
+	font-size: 10px;
+}

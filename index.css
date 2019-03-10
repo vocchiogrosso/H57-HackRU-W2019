@@ -198,16 +198,10 @@ body {
         top: 50%;
     }
 
-
-#screenSettingsC {
-    background-color: lightcoral;
-    top: 200%;
-}
-
 #screenSettingsD {
     background-color: rgb(115, 147, 179);
     text-align: center;
-    top: 300%;
+    top: 200%;
 }
 
 #screenSettingsE {
@@ -298,10 +292,10 @@ body {
 
         #Team-Container {
             background-color: white;
-            height: 60vh;
+            height: 80vh;
             position: absolute;
             width:80vw;
-            top: 20%;
+            top: 10%;
             left:10%;
         }
 
@@ -310,7 +304,7 @@ body {
             border-radius: 5px;
             border: 1px solid black;
             height:70%;
-            width:25%;
+            width:20%;
             position: absolute;
             top:25%;
         }
@@ -325,15 +319,11 @@ body {
 
                 .Photo {
                     border-radius: 50%;
-                    height:30%;
+                    height:40%;
                     width:60%;
                     position: absolute;
                     left:20%;
                     top:5%;
-                    -webkit-transform: rotate(90deg);
-                    -moz-transform: rotate(90deg);
-                    -o-transform: rotate(90deg);
-                    writing-mode: lr-tb;
                 }
     
                 .Photo:Hover {
@@ -344,19 +334,20 @@ body {
     
                 .Name {
                     position: relative;
-                    top:35%;
+                    top:55%;
                     text-align: center;
                     font-weight: bold;
                 }
     
                 #PPA{left:5%;}
-                #PPB{left:37.5%;}
-                #PPC{left:70%;}
+                #PPB{left:27.5%;}
+                #PPC{left:52.5%;}
+                #PPD{left:75%;}
 
     
                 #SP{
                     position: relative;
-                    top:35%;
+                    top:50%;
                     text-align: center;
                 }
     
@@ -378,9 +369,25 @@ body {
                 }
     
                 #PPP {
+                    position: absolute;
+                    width:60%;
+                    height:30%;
+                    top:80%;
+                    left:20%;
                     font-size: 20px;
-                    position: relative;
-                    top:30%;
                     font-weight:bold;
+                    text-align:center;
                 }
     
+        .button {
+            background:    #3d85c6;
+            background:    linear-gradient(#3d85c6, #073763);
+            border:        2px solid #000000;
+            border-radius: 5px;
+            padding:       8px 20px;
+            color:         #ffffff;
+            display:       inline-block;
+            font:          normal bold 24px/1 "Calibri", sans-serif;
+            text-align:    center;
+            text-shadow:   1px 1px #000000;
+        }

@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <title>BigFarm</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+    crossorigin="anonymous"></script>
+
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
+    crossorigin="anonymous">
+  <link rel="stylesheet" href="./css/style.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
+  <link rel="stylesheet" href="../index.css"/>
+
+
+</head>
+
+<body>
+  <!-- navbar -->
+  <div class="navigation">
+    <a class="active" href="./index.html">Small Scale</a>
+    <img src="./img/What the crop.png">
+    <a href="./large-scale.html">Large Scale</a>
+  </div>
+  <button class="button" value="Back" target="_blank" onclick="window.location.href='../index.html'"></button>
+  <div class="content">
+    <!-- Sensor data -->
+    <div class="sensorInfo">
+      <p class="title" id="plantTitle">Carrot</p>
+      <p class="sensorDescription">Temperature: <span class="sensorData" id="temp"></span></p>
+      <p class="units">&#8451;</p>
+      <p class="sensorDescription">Humidity: <span class="sensorData" id="humid"></span></p>
+      <p class="units">%</p>
+      <p class="sensorDescription">Soil Moisture: <span class="sensorData" id="soil"></span></p>
+      <p class="units">Relative Humidity</p>
+      <p class="sensorDescription">Sun East: <span class="sensorData" id="sun1"></span></p>
+      <p class="units">lux</p>
+      <p class="sensorDescription">Sun West: <span class="sensorData" id="sun2"></span></p>
+      <p class="units">lux</p>
+    </div>
+
+    <!-- Farm Grid -->
+
+    <div class="farm-container">
+      <div class="node" onclick="changeNode()" id="node1">
+        <figure>
+          <img class="node-image" id="node1img" src="./img/Good-Warm.png">
+          <figcaption><img src="./img/Carrot.jpg"></figcaption>
+        </figure>
+      </div>
+      <div class="node" id="node2" onclick="changeNode()">
+        <figure>
+          <img class="node-image" src="./img/Good-Warm.png">
+          <figcaption><img src="./img/Cucumber.jpg"></figcaption>
+        </figure>
+      </div>
+      <div class="node" id="node3" onclick="changeNode()">
+        <figure>
+          <img class="node-image" src="./img/Good-Warm.png">
+          <figcaption><img src="./img/Potato.jpg"></figcaption>
+        </figure>
+      </div>
+      <div class="node" onclick="changeNode()" id="node4">
+        <figure>
+          <img class="node-image" src="./img/Good-Warm.png">
+          <figcaption><img src="./img/Lettuce.jpg"></figcaption>
+        </figure>
+      </div>
+      <div class="node" id="node5" onclick="changeNode()">
+        <figure>
+          <img class="node-image" src="./img/Good-Warm.png">
+          <figcaption><img src="./img/Lettuce.jpg"></figcaption>
+        </figure>
+      </div>
+      <div class="node" id="node6" onclick="changeNode()">
+        <figure>
+          <img class="node-image" src="./img/Good-Warm.png">
+          <figcaption><img src="./img/Lettuce.jpg"></figcaption>
+        </figure>
+      </div>
+      <div class="node" onclick="changeNode()" id="node7">
+        <figure>
+          <img class="node-image" src="./img/Good-Warm.png">
+          <figcaption><img src="./img/Radish.jpg"></figcaption>
+        </figure>
+      </div>
+      <div class="node" id="node8" onclick="changeNode()">
+        <figure>
+          <img class="node-image" src="./img/Good-Warm.png">
+          <figcaption><img src="./img/Tomato.jpg"></figcaption>
+        </figure>
+      </div>
+      <div class="node" id="node9" onclick="changeNode()">
+        <figure>
+          <img class="node-image" src="./img/Good-Warm.png">
+          <figcaption><img src="./img/Broccoli.jpg"></figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    var refresh = 1000;
+
+    var temperature;
+    var soil;
+    var humidity;
+    var sunlight1;
+    var sunlight2;
+    var temperaturecolor;
+    var soilcolor;
+    var hot = 32.00;
+    var cold = 24.00;
+    var water = 430;
+    var nowater = 350;
+
+    var temperature1 = "";
+    var soil1 = "";
+    var humidity1 = "";
+    var sunlight = "";
+
+    var refreshSensorTemp;
+    var refreshSensorHumid;
+    var refreshSensorSoil;
+    var refreshSun1;
+    var refreshSun2;
+
+    $(document).ready(function () {
+      /* Initial load of data*/
+      $.ajax({
+        crossOrigin: true,
+        type: 'GET',
+        url: 'https://api.thingspeak.com/channels/618622/fields/1.json?api_key=X1WVC3XWDW20DM37&results=2',
+        success: function (data) {
+          temperature = data['feeds'][1].field1;
+          $("#temp").text(temperature);
+          var tempFloat = parseFloat(temperature);
+          if (tempFloat<cold)
+          {
+            temperaturecolor = "#A5F2F3";
+          }
+          if (tempFloat>hot)
+          {
+            temperaturecolor = "#9C2A00";
+          }
+          else
+          {
+            temperaturecolor = "white";
+          }
+        },
+        error: function (xhr) {
+        }
+      });
+      
+      $.ajax({
+        crossOrigin: true,
+        type: 'GET',
+        url: 'https://api.thingspeak.com/channels/618622/fields/5.json?api_key=X1WVC3XWDW20DM37&results=2',
+        success: function (data) {
+          soil = data['feeds'][1].field5;
+          $("#soil").text(soil);
+          var soilInt = parseInt(soil);
+          var tempInt = parseFloat(temperature);
+          if (soilInt > 430 && tempInt>hot){
+            $("#node1img").attr("src", "./img/Dry-Hot.png");
+          }
+          else if (soilInt <= water && tempInt>hot){
+            $("#node1img").attr("src", "./img/Good-Hot.png");
+          }
+          else if (soilInt <= water && tempInt<=hot && tempInt >cold){
+            $("#node1img").attr("src", "./img/Good-Warm.png");
+          }
+          else if (soilInt > water && tempInt <= hot && tempInt >cold){
+            $("#node1img").attr("src", "./img/Dry-Warm.png");
+          }
+          else if (soilInt > water && tempInt <=cold){
+            $("#node1img").attr("src", "./img/Dry-Cold.png");
+          }
+          else if (soilInt <= water && tempInt <=cold){
+            $("#node1img").attr("src", "./img/Good-Cold.png");
+          }
+
+
+        },
+        error: function (xhr) {
+        }
+      });
+
+      $.ajax({
+        crossOrigin: true,
+        type: 'GET',
+        url: 'https://api.thingspeak.com/channels/618622/fields/2.json?api_key=X1WVC3XWDW20DM37&results=2',
+        success: function (data) {
+          humidity = data['feeds'][1].field2;
+          $("#humid").text(humidity);
+        },
+        error: function (xhr) {        }
+      });
+
+	     $.ajax({
+        crossOrigin: true,
+        type: 'GET',
+        url: 'https://api.thingspeak.com/channels/618622/fields/3.json?api_key=X1WVC3XWDW20DM37&results=2',
+        success: function (data) {
+          sunlight1 = data['feeds'][1].field3;
+          $("#sun1").text(sunlight1);
+        },
+        error: function (xhr) {
+        }
+      });
+
+       $.ajax({
+        crossOrigin: true,
+        type: 'GET',
+        url: 'https://api.thingspeak.com/channels/618622/fields/4.json?api_key=X1WVC3XWDW20DM37&results=2',
+        success: function (data) {
+          sunlight2 = data['feeds'][1].field4;
+          $("#sun2").text(sunlight2);
+        },
+        error: function (xhr) {
+        }
+      });
+
+
+      /* Repeating ajax call */
+      var refreshTemp = setInterval(function() {$.ajax({
+        crossOrigin: true,
+        type: 'GET',
+        url: 'https://api.thingspeak.com/channels/618622/fields/1.json?api_key=X1WVC3XWDW20DM37&results=2',
+        success: function (data) {
+          temperature = data['feeds'][1].field1;
+          var tempFloat = parseFloat(temperature);
+          if (tempFloat<cold)
+          {
+            temperaturecolor = "#A5F2F3";
+            $("#temp").css('color',temperaturecolor);
+          }
+          if (tempFloat>hot)
+          {
+            temperaturecolor = "#9C2A00";
+            $("#temp").css('color',temperaturecolor);
+          }
+          else if (tempFloat>=cold && tempFloat<=hot){
+            temperaturecolor = "white";
+            $("#temp").css('color',temperaturecolor);
+          }
+        },
+        error: function (xhr) {
+        }
+      });}, refresh);
+
+      var tempAlert = setInterval(function() {$.ajax({
+        crossOrigin: true,
+        type: 'GET',
+        url: 'https://api.thingspeak.com/channels/618622/fields/1.json?api_key=X1WVC3XWDW20DM37&results=2',
+        success: function (data) {
+          temperature = data['feeds'][1].field1;
+          var tempFloat = parseFloat(temperature);
+          if (tempFloat<cold)
+          {
+            alert("It's getting cold!")
+          }
+          if (tempFloat>hot)
+          {
+            alert("It's getting hot!")
+          }
+        },
+        error: function (xhr) {
+        }
+      });}, 50000);
+
+      
+
+      var refreshSoil = setInterval(function() {$.ajax({
+        crossOrigin: true,
+        type: 'GET',
+        url: 'https://api.thingspeak.com/channels/618622/fields/5.json?api_key=X1WVC3XWDW20DM37&results=2',
+        success: function (data) {
+          soil = data['feeds'][1].field5;
+          var soilInt = parseInt(soil);
+          var tempInt = parseInt(temperature);
+          if (soilInt > water && tempInt>hot){
+            $("#node1img").attr("src", "./img/Dry-Hot.png");
+          }
+          else if (soilInt <= water && tempInt>hot){
+            $("#node1img").attr("src", "./img/Good-Hot.png");
+          }
+          else if (soilInt <= water && tempInt<=hot && tempInt >cold){
+            $("#node1img").attr("src", "./img/Good-Warm.png");
+          }
+          else if (soilInt > water && tempInt <= hot && tempInt >cold){
+            $("#node1img").attr("src", "./img/Dry-Warm.png");
+          }
+          else if (soilInt > water && tempInt <=cold){
+            $("#node1img").attr("src", "./img/Dry-Cold.png");
+          }
+          else if (soilInt <= water && tempInt <=cold){
+            $("#node1img").attr("src", "./img/Good-Cold.png");
+          }
+
+          if(soilInt<=water && soilInt>nowater)
+          {
+            soilcolor = "yellow";
+            $("#soil").css('color',soilcolor);
+          }
+          if(soilInt>water)
+          {
+            soilcolor = "#DAA520";
+            $("#soil").css('color',soilcolor);
+          }
+          else
+          {
+            soilcolor = "white";
+            $("#soil").css('color',soilcolor);
+          }
+
+
+        },
+        error: function (xhr) {
+        }
+      });}, refresh);
+
+      var soilalert = setInterval(function() {$.ajax({
+        crossOrigin: true,
+        type: 'GET',
+        url: 'https://api.thingspeak.com/channels/618622/fields/5.json?api_key=X1WVC3XWDW20DM37&results=2',
+        success: function (data) {
+          soil = data['feeds'][1].field5;
+          var soilInt = parseInt(soil);
+          if (soilInt>water)
+          {
+            alert("Your crops need watering!")
+          }
+
+        },
+        error: function (xhr) {
+        }
+      });}, 50000);
+
+
+      var refreshHumid = setInterval(function() {$.ajax({
+        crossOrigin: true,
+        type: 'GET',
+        url: 'https://api.thingspeak.com/channels/618622/fields/3.json?api_key=X1WVC3XWDW20DM37&results=2',
+        success: function (data) {
+          humidity = data['feeds'][1].field3;
+        },
+        error: function (xhr) {
+        }
+      });}, refresh);
+
+      var refreshSun1 = setInterval(function() {$.ajax({
+        crossOrigin: true,
+        type: 'GET',
+        url: 'https://api.thingspeak.com/channels/618622/fields/4.json?api_key=X1WVC3XWDW20DM37&results=2',
+        success: function (data) {
+          sunlight1 = data['feeds'][1].field3;
+        },
+        error: function (xhr) {
+        }
+      });}, refresh);
+
+      var refreshSun2 = setInterval(function() {$.ajax({
+        crossOrigin: true,
+        type: 'GET',
+        url: 'https://api.thingspeak.com/channels/618622/fields/4.json?api_key=X1WVC3XWDW20DM37&results=2',
+        success: function (data) {
+          sunlight1 = data['feeds'][1].field4;
+        },
+        error: function (xhr) {
+        }
+      });}, refresh);
+
+
+
+      $("#node1").click(function changeNode() {
+        $("#plantTitle").text("Carrot");
+        refreshSensorTemp = setInterval( function(){$("#temp").text(temperature);}, refresh);
+        refreshTempColor = setInterval( function(){$("#temp").css('color',temperaturecolor);}, refresh);
+        refreshSoilColor = setInterval( function(){$("#soil").css('color',soilcolor);}, refresh);
+        refreshSensorHumid = setInterval (function(){$("#humid").text(humidity);}, refresh);
+        refreshSensorSoil = setInterval( function(){$("#soil").text(soil);}, refresh);
+        refreshSun1 = setInterval( function(){$("#sun1").text(sunlight1);}, refresh);
+        refreshSun2 = setInterval( function(){$("#sun2").text(sunlight2);}, refresh);
+      });
+
+      $("#node2").click(function changeNode() {
+        clearInterval(refreshSensorTemp);
+        clearInterval(refreshSensorHumid);
+        clearInterval(refreshSensorSoil);
+        clearInterval(refreshSun1);
+        clearInterval(refreshSun2);
+        $("#plantTitle").text("Cucumber");
+        $("#temp").text(temperature1);
+        $("#humid").text(humidity1);
+        $("#soil").text(soil1);
+        $("#sun1").text(sunlight);
+        $("#sun2").text(sunlight);
+        /*
+        var refreshSensorTemp = setInterval( function(){$("#temp").text(temperature1);}, refresh);
+        var refreshSensorHumid = setInterval (function(){$("#humid").text(humidity1);}, refresh);
+        var refreshSensorSoil = setInterval( function(){$("#soil").text(soil1);}, refresh);
+        var refreshSun1 = setInterval( function(){$("#sun1").text(sunlight);}, refresh);
+        var refreshSun2 = setInterval( function(){$("#sun2").text(sunlight);}, refresh);
+        */
+      });
+      $("#node3").click(function changeNode() {
+        $("#plantTitle").text("Potato");
+        $("#temp").text(temperature1);
+        $("#humid").text(humidity1);
+        $("#soil").text(soil1);
+        $("#sun1").text(sunlight);
+        $("#sun2").text(sunlight);
+        clearInterval(refreshSensorTemp);
+        clearInterval(refreshTempColor);
+        clearInterval(refreshSensorSoil);
+        clearInterval(refreshSun1);
+        clearInterval(refreshSun2);
+      });
+      $("#node4").click(function changeNode() {
+        $("#plantTitle").text("Lettuce");
+        $("#temp").text(temperature1);
+        $("#humid").text(humidity1);
+        $("#soil").text(soil1);
+        $("#sun1").text(sunlight);
+        $("#sun2").text(sunlight);
+        clearInterval(refreshSensorTemp);
+        clearInterval(refreshSensorHumid);
+        clearInterval(refreshSensorSoil);
+        clearInterval(refreshSun1);
+        clearInterval(refreshSun2);
+      });
+      $("#node5").click(function changeNode() {
+        $("#plantTitle").text("Lettuce");
+        $("#temp").text(temperature1);
+        $("#humid").text(humidity1);
+        $("#soil").text(soil1);
+        $("#sun1").text(sunlight);
+        $("#sun2").text(sunlight);
+        clearInterval(refreshSensorTemp);
+        clearInterval(refreshSensorHumid);
+        clearInterval(refreshSensorSoil);
+        clearInterval(refreshSun1);
+        clearInterval(refreshSun2);
+      });
+      $("#node6").click(function changeNode() {
+        $("#plantTitle").text("Lettuce");
+        $("#temp").text(temperature1);
+        $("#humid").text(humidity1);
+        $("#soil").text(soil1);
+        $("#sun1").text(sunlight);
+        $("#sun2").text(sunlight);
+        clearInterval(refreshSensorTemp);
+        clearInterval(refreshSensorHumid);
+        clearInterval(refreshSensorSoil);
+        clearInterval(refreshSun1);
+        clearInterval(refreshSun2);
+      });
+      $("#node7").click(function changeNode() {
+        $("#plantTitle").text("Radish");
+        $("#temp").text(temperature1);
+        $("#humid").text(humidity1);
+        $("#soil").text(soil1);
+        $("#sun1").text(sunlight);
+        $("#sun2").text(sunlight);
+        clearInterval(refreshSensorTemp);
+        clearInterval(refreshSensorHumid);
+        clearInterval(refreshSensorSoil);
+        clearInterval(refreshSun1);
+        clearInterval(refreshSun2);
+      });
+      $("#node8").click(function changeNode() {
+        $("#plantTitle").text("Tomato");
+        $("#temp").text(temperature1);
+        $("#humid").text(humidity1);
+        $("#soil").text(soil1);
+        $("#sun1").text(sunlight);
+        $("#sun2").text(sunlight);
+        clearInterval(refreshSensorTemp);
+        clearInterval(refreshSensorHumid);
+        clearInterval(refreshSensorSoil);
+        clearInterval(refreshSun1);
+        clearInterval(refreshSun2);
+      });
+      $("#node9").click(function changeNode() {
+        $("#plantTitle").text("Broccoli");
+        $("#temp").text(temperature1);
+        $("#humid").text(humidity1);
+        $("#soil").text(soil1);
+        $("#sun1").text(sunlight);
+        $("#sun2").text(sunlight);
+        clearInterval(refreshSensorTemp);
+        clearInterval(refreshSensorHumid);
+        clearInterval(refreshSensorSoil);
+        clearInterval(refreshSun1);
+        clearInterval(refreshSun2);
+      });
+    });
+  </script>
+
+</body>
