@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+                 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <title>Modular Sense</title>
+    <link rel="Stylesheet" media="screen" type="text/css" href="index.css"/>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="index.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script></script>
+</head>
+<body>
+    <div class="NavigationBar" id="NavBar">
+        <div id="navPanel">
+            <div id="NB1" class="navBarItem"><h3></h3></div>
+            <a href="#screenSettingsA"><div id="NB2" class="navBarItem"><h3>Home</h3></div></a>
+            <a href="#screenSettingsB"><div id="NB3" class="navBarItem"><h3>About</h3></div></a>
+            <a href="#screenSettingsC"><div id="NB4" class="navBarItem"><h3>Demo</h3></div></a>
+            <div id="NB5" class="navBarItem"><h3></h3></div>
+
+        </div>
+    </div>
+    <div class="LandingScreen" id="screenSettingsA">
+        <iframe id="Video" src="Landing.mp4" loop="true" controls="false">
+        </iframe>
+        <div class="FortyBox" id="M1">
+            <h1>Introducing the Modular Sense</h1>
+            <h3>Improving Data Reading Capabilities</h3>
+        </div>
+        
+    </div>
+    <div class="Screen" id="screenSettingsB">
+     <div class="split"id="left">
+      <div id="Top">
+      <h1>About</h1>
+      <h2>Modular Sense is a Modular Robot that has built in componets that allows it to be useful in a variety of stituations.</h2>
+      <h2>What we've done is the robot from scratch that can support integrating all diffrent types of modular sensors and other boards.</h2>
+      <img src="photo1.jpg"> 
+      </div>
+     </div>
+     <div class="split" id="right">
+      <img src="photo2.jpg">
+      <div id="Bottom">
+      <h1>How It Works</h1>
+      <h2>One application of the Modular Sense is in the use of a Farming Bot.</h2>
+      <h3>The robots modular capability allows us to add componenets and integrate into it's existing platform.</h3>
+      <h3>For example, you could connect your camera to the onboard ardunio and remotely run your code</h3>
+      <h3>The robot is capable for running approx. 4 minutes on 5000mah battery </h3>
+      <h3>A larger battery can be used, 10000mah, giving you almost 6 minutes.</h3>
+      <h3></h3>
+      <h3></h3>
+      </div>
+     </div>
+    </div>
+    <div class="Screen" id="screenSettingsC">
+        <a href="#screenSettingsC" onclick=""><div class="button-4" id="B1"><h3>Graph 1</h3></div></a>
+        <a href="#screenSettingsC" onclick=""><div class="button-4" id="B2"><h3>Graph 2</h3></div></a>
+        <div class="button-4" id="B3"><h3></h3></div>
+        <a href="#screenSettingsC" onclick=""><div class="button-4" id="B4"><h3>Graph 4</h3></div></a>
+        <div id="Demo">
+
+        </div>
+    </div>
+</div>

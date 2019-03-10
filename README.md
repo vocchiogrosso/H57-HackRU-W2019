@@ -1,1 +1,1 @@
-# H57-HackRU-W2019
+# H52-MakeHarvard
